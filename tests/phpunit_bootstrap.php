@@ -8,5 +8,7 @@ require __DIR__."/../vendor/autoload.php";
 
 function getTestInjector()
 {
-    return new Injector();
+    $injector = new Injector();
+    $injector->share($injector);
+    return $injector;
 }
