@@ -26,7 +26,7 @@ class Engine
 
             if ($injectionParams = $step->getInjectionParams())
             {
-
+                $injectionParams->addToInjector($this->injector);
             }
 
             if (is_array($callable))
