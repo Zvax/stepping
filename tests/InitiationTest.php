@@ -19,4 +19,9 @@ class InitiationTest extends \Tests\SteppingTestCase
         $this->assertTrue(true == $injector->execute($step->getCallable()));
     }
 
+    public function testAssociateNull()
+    {
+        $this->assertNotTrue($injectionParams = null);
+    }
+
 }
