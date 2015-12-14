@@ -24,6 +24,11 @@ class Engine
         {
             $callable = $step->getCallable();
 
+            if ($injectionParams = $step->getInjectionParams())
+            {
+
+            }
+
             if (is_array($callable))
             {
                 $result = $this->injector->execute($callable[0],$callable[1]);
