@@ -1,0 +1,19 @@
+{
+    "name": "zvax/stepping",
+    "require":
+    {
+        "rdlowrey/auryn": "v1.0.0"
+    },
+    "require-dev":
+    {
+        "phpunit/phpunit": "^5.0"
+    },
+    "autoload":
+    {
+        "psr-4":
+        {
+            "Stepping\\": "src/",
+            "Tests\\": "tests/src/"
+        }
+    }
+}
