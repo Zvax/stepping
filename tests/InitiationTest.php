@@ -5,9 +5,8 @@ class InitiationTest extends \Tests\SteppingTestCase
 
     public function testInitiates()
     {
-        $injector = \Tests\getTestInjector();
         $step = new \Stepping\Step(function() {return true;});
-        $engine = new \Stepping\Engine($injector,$step);
+        $engine = new \Stepping\Engine($this->injector,$step);
         $this->assertInstanceOf("Stepping\\Engine",$engine);
     }
 
@@ -15,8 +14,7 @@ class InitiationTest extends \Tests\SteppingTestCase
     {
         /** @var \Stepping\Step $step */
         $step = new \Stepping\Step(function() {return true;});
-        $injector = \Tests\getTestInjector();
-        $this->assertTrue(true == $injector->execute($step->getCallable()));
+        $this->assertTrue(true == $this->injector->execute($step->getCallable()));
     }
 
     public function testAssociateNull()
