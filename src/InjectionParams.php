@@ -19,6 +19,16 @@ class InjectionParams
         $this->params = $params;
     }
 
+    public static function fromRouteParams($params)
+    {
+        $return = [];
+        foreach ($params as $key => $value)
+        {
+            $return[$key] = $value;
+        }
+        return new self([],[],[],$return);
+    }
+
     public function addToInjector(Injector $injector)
     {
         foreach ($this->shares as $share)
