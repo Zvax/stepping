@@ -12,6 +12,7 @@ class Engine
     public function __construct(Injector $injector,Step $nextStep)
     {
         $this->injector = $injector;
+        $this->injector->share($this->injector);
         $this->executableList = new ExecutableList();
         $this->executableList->addStep($nextStep);
     }
