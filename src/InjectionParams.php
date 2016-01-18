@@ -11,19 +11,22 @@ class InjectionParams
     private $definitions = [];
     private $params = [];
     private $delegates = [];
+    private $prepares = [];
 
     public function __construct(
         $shares = [],
         $aliases = [],
         $definitions = [],
         $params = [],
-        $delegates = []
+        $delegates = [],
+        $prepares = []
     ) {
         $this->shares = $shares;
         $this->aliases = $aliases;
         $this->definitions = $definitions;
         $this->params = $params;
         $this->delegates = $delegates;
+        $this->prepares = $prepares;
     }
 
     public static function fromRouteParams($params)
@@ -57,6 +60,10 @@ class InjectionParams
         foreach ($this->delegates as $param => $callable)
         {
             $injector->delegate($param, $callable);
+        }
+        foreach ($this->prepares as $class => $callable)
+        {
+            $injector->prepare($class, $callable);
         }
     }
 
