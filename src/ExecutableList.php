@@ -1,6 +1,6 @@
 <?php
 
-namespace Stepping;
+namespace Zvax\Stepping;
 
 class ExecutableList implements \Iterator
 {
