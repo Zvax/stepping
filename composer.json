@@ -2,6 +2,7 @@
     "name": "zvax/stepping",
     "require":
     {
+        "php": ">=5.5",
         "rdlowrey/auryn": "v1.0.0"
     },
     "require-dev":
