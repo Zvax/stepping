@@ -7,21 +7,34 @@ use Auryn\Injector;
 class Engine
 {
     private $injector;
-    private $executableList;
+    private $steps = [];
 
     public function __construct(Injector $injector,Step $nextStep)
     {
         $this->injector = $injector;
         $this->injector->share($this->injector);
-        $this->executableList = new ExecutableList();
-        $this->executableList->addStep($nextStep);
+        $this->steps[] = $nextStep;
+    }
+
+    private function getSteps()
+    {
+        $i = 0;
+        while ( $step = array_shift($this->steps) )
+        {
+            yield $step;
+            if ($i++ > 30)
+            {
+                return;
+            }
+        }
+        return;
     }
 
 
     public function execute()
     {
-        /** @var Step $step */
-        foreach ($this->executableList as $step)
+
+        foreach ($this->getSteps() as $step)
         {
             $callable = $step->getCallable();
 
@@ -41,7 +54,7 @@ class Engine
 
             if ($result instanceof  Step)
             {
-                $this->executableList->addStep($result);
+                $this->steps[] = $result;
             }
         }
     }
