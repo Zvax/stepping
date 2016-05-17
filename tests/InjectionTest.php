@@ -27,4 +27,22 @@ class InjectionTest extends SteppingTestCase
         $this->assertEquals(42, $bar->foo);
     }
 
+    public function testParams()
+    {
+
+        $func = function($param)
+        {
+            return $param;
+        };
+
+        $injector = new Injector();
+        $injection = new InjectionParams([],[],[],[
+            'param' => 'value',
+        ]);
+        $injection->addToInjector($injector);
+
+        $this->assertEquals('value', $injector->execute($func));
+
+    }
+
 }
