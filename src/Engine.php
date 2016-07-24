@@ -11,32 +11,36 @@ class Engine
         $this->injector->share($this->injector);
         $this->actions[] = $next;
     }
-    private function getSteps()
+    private function getActions()
     {
         $i = 0;
-        while ($step = array_shift($this->actions)) {
-            yield $step;
+        while ($action = array_shift($this->actions)) {
+            yield $action;
             if ($i++ > 30) {
                 return;
             }
         }
         return;
     }
+    private function dispatchAction(Action $action)
+    {
+        if ($injectionParams = $action->getInjectionParams()) {
+            $injectionParams->addToInjector($this->injector);
+        }
+        $result = $this->injector->execute($action);
+        if ($next = $action->getNext())
+        {
+            $this->dispatchAction($action);
+        }
+        if ($result instanceof Action) {
+            $this->actions[] = $result;
+        }
+    }
     public function execute()
     {
-        foreach ($this->getSteps() as $step) {
-            $callable = $step->getCallable();
-            if ($injectionParams = $step->getInjectionParams()) {
-                $injectionParams->addToInjector($this->injector);
-            }
-            if (is_array($callable)) {
-                $result = $this->injector->execute($callable[0], $callable[1]);
-            } else {
-                $result = $this->injector->execute($callable);
-            }
-            if ($result instanceof Action) {
-                $this->actions[] = $result;
-            }
+        /** @var Action $action */
+        foreach ($this->getActions() as $action) {
+            $this->dispatchAction($action);
         }
     }
 }

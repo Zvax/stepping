@@ -1,5 +1,6 @@
 <?php
 namespace Stepping;
+use Auryn\Injector;
 class Action
 {
     private $callable;
@@ -7,7 +8,7 @@ class Action
     private $injectionParams;
     public function __construct(
         $callable,
-        $next = null,
+        Action $next = null,
         InjectionParams $injectionParams = null
     )
     {
@@ -15,12 +16,9 @@ class Action
         $this->next = $next;
         $this->injectionParams = $injectionParams;
     }
-    /**
-     * @return mixed
-     */
-    public function getCallable()
+    function __invoke(Injector $injector)
     {
-        return $this->callable;
+        return $injector->execute($this->callable);
     }
     /**
      * @return null
@@ -36,5 +34,4 @@ class Action
     {
         return $this->injectionParams;
     }
-
 }
