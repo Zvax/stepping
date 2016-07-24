@@ -5,11 +5,11 @@ class EngineTest extends \Tests\SteppingTestCase
     public function testSteps()
     {
 
-        /** @var \Zvax\Stepping\Engine $engine */
-        $engine = $this->injector->make("\\Zvax\\Stepping\\Engine",[
-            ":nextStep" => new \Zvax\Stepping\Step("Tests\\Foo::bar"),
+        /** @var \Stepping\Engine $engine */
+        $engine = $this->injector->make("\\Stepping\\Engine",[
+            ":nextStep" => new Stepping\Step("Tests\\Foo::bar"),
         ]);
-        $this->assertInstanceOf("\\Zvax\\Stepping\\Engine",$engine);
+        $this->assertInstanceOf("\\Stepping\\Engine",$engine);
 
         ob_start();
         $engine->execute();

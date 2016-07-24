@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Zvax\Stepping\Step;
+use Stepping\Step;
 
 class Foo
 {
