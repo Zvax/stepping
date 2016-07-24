@@ -4,17 +4,17 @@ use Auryn\Injector;
 class Engine
 {
     private $injector;
-    private $steps = [];
-    public function __construct(Injector $injector, Step $nextStep)
+    private $actions = [];
+    public function __construct(Injector $injector, Action $next)
     {
         $this->injector = $injector;
         $this->injector->share($this->injector);
-        $this->steps[] = $nextStep;
+        $this->actions[] = $next;
     }
     private function getSteps()
     {
         $i = 0;
-        while ($step = array_shift($this->steps)) {
+        while ($step = array_shift($this->actions)) {
             yield $step;
             if ($i++ > 30) {
                 return;
@@ -34,8 +34,8 @@ class Engine
             } else {
                 $result = $this->injector->execute($callable);
             }
-            if ($result instanceof Step) {
-                $this->steps[] = $result;
+            if ($result instanceof Action) {
+                $this->actions[] = $result;
             }
         }
     }

@@ -7,7 +7,7 @@ class EngineTest extends \Tests\SteppingTestCase
 
         /** @var \Stepping\Engine $engine */
         $engine = $this->injector->make("\\Stepping\\Engine",[
-            ":nextStep" => new Stepping\Step("Tests\\Foo::bar"),
+            ":next" => new Stepping\Action("Tests\\Foo::bar"),
         ]);
         $this->assertInstanceOf("\\Stepping\\Engine",$engine);
 

@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Auryn\Injector;
-use Zvax\Stepping\InjectionParams;
+use Stepping\InjectionParams;
 
 class InjectionTest extends SteppingTestCase
 {

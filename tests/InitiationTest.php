@@ -5,15 +5,15 @@ class InitiationTest extends \Tests\SteppingTestCase
 
     public function testInitiates()
     {
-        $step = new Stepping\Step(function() {return true;});
+        $step = new Stepping\Action(function() {return true;});
         $engine = new Stepping\Engine($this->injector,$step);
         $this->assertInstanceOf("\\Stepping\\Engine",$engine);
     }
 
     public function testStepCanBeRun()
     {
-        /** @var \Stepping\Step $step */
-        $step = new Stepping\Step(function() {return true;});
+        /** @var \Stepping\Action $step */
+        $step = new Stepping\Action(function() {return true;});
         $this->assertTrue(true == $this->injector->execute($step->getCallable()));
     }
 
