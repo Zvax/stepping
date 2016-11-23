@@ -1,16 +1,19 @@
 <?php
-
-class StepTest extends \Tests\SteppingTestCase
+namespace Tests;
+use Auryn\Injector;
+use Stepping\InjectionParams;
+class StepTest extends \PHPUnit_Framework_TestCase
 {
     public function testDependenciesAreConstructed()
     {
-        $injectionParams = new Stepping\InjectionParams([],[],[],[
+        $injector = new Injector;
+        $injectionParams = new InjectionParams([],[],[],[
             "stringArg" => "stringValue"
         ]);
         $this->assertInstanceOf("\\Stepping\\InjectionParams",$injectionParams);
-        $injectionParams->addToInjector($this->injector);
+        $injectionParams->addToInjector($injector);
 
-        $moot = $this->injector->make("\\Tests\\Moot");
+        $moot = $injector->make("\\Tests\\Moot");
         $this->assertInstanceOf("Tests\\Moot",$moot);
 
         $this->assertEquals("stringValue", $moot->getStringArg());

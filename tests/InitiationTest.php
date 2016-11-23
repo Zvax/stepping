@@ -1,21 +1,26 @@
 <?php
-class InitiationTest extends \Tests\SteppingTestCase
+namespace Tests;
+use Auryn\Injector;
+use Stepping\Action;
+use Stepping\Engine;
+class InitiationTest extends \PHPUnit_Framework_TestCase
 {
     public function testInitiates()
     {
-        $action = new Stepping\Action(function () {
+        $cb = function ()
+        {
             return true;
-        });
-        $engine = new Stepping\Engine($this->injector, $action);
-        $this->assertInstanceOf("\\Stepping\\Engine", $engine);
+        };
+        $engine = new Engine(new Injector, new Action($cb));
+        $this->assertInstanceOf('Stepping\Engine', $engine);
     }
     public function testStepCanBeRun()
     {
-        /** @var \Stepping\Action $action */
-        $action = new Stepping\Action(function () {
+        $cb = function ()
+        {
             return true;
-        });
-        $this->assertTrue(true == $this->injector->execute($action));
+        };
+        $this->assertTrue(true == (new Injector)->execute(new Action($cb)));
     }
     public function testAssociateNull()
     {

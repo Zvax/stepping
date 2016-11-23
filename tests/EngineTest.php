@@ -1,12 +1,15 @@
 <?php
-class EngineTest extends \Tests\SteppingTestCase
+namespace Tests;
+use Auryn\Injector;
+use Stepping\Action;
+use Stepping\Engine;
+class EngineTest extends \PHPUnit_Framework_TestCase
 {
     public function testSteps()
     {
-        /** @var \Stepping\Engine $engine */
-        $engine = $this->injector->make('Stepping\Engine', [
-            ':next' => new Stepping\Action('Tests\Foo::bar'),
-        ]);
+        $injector = new Injector;
+        $next = new Action('Tests\Foo::bar');
+        $engine = new Engine($injector, $next);
         ob_start();
         $engine->execute();
         $string = ob_get_clean();
