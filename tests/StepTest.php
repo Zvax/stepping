@@ -1,8 +1,9 @@
 <?php
 namespace Tests;
 use Auryn\Injector;
+use PHPUnit\Framework\TestCase;
 use Stepping\InjectionParams;
-class StepTest extends \PHPUnit_Framework_TestCase
+class StepTest extends TestCase
 {
     public function testDependenciesAreConstructed()
     {

@@ -1,8 +1,9 @@
 <?php
 namespace Tests;
 use Auryn\Injector;
+use PHPUnit\Framework\TestCase;
 use Stepping\InjectionParams;
-class InjectionTest extends \PHPUnit_Framework_TestCase
+class InjectionTest extends TestCase
 {
     public function testPrepare()
     {
