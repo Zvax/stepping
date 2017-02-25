@@ -3,5 +3,7 @@ php:
  - 5.6
  - 7.0
  - 7.1
-script: phpunit tests
+script:
+ - cd tests
+ - phpunit
 install: composer update

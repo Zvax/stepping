@@ -5,7 +5,7 @@
         stopOnIncomplete="false"
         stopOnSkipped="false"
         stopOnRisky="false"
-        bootstrap="./bootstrap.php">
+        bootstrap="bootstrap.php">
     <testsuites>
         <testsuite name="Initiation">
             <directory>./</directory>
