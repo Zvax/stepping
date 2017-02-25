@@ -44,10 +44,6 @@ class Engine
             }
             $product = $product->current();
         }
-        if ($next = $action->getNext())
-        {
-            $this->dispatchAction($action);
-        }
         if ($product instanceof Action) {
             $this->actions[] = $product;
         }
