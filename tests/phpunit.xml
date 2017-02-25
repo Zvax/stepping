@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<phpunit bootstrap="./bootstrap.php">
+<phpunit
+        stopOnError="false"
+        stopOnFailure="false"
+        stopOnIncomplete="false"
+        stopOnSkipped="false"
+        stopOnRisky="false"
+        bootstrap="./bootstrap.php">
     <testsuites>
         <testsuite name="Initiation">
             <directory>./</directory>

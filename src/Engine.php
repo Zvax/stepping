@@ -27,13 +27,29 @@ class Engine
         if ($injectionParams = $action->getInjectionParams()) {
             $injectionParams->addToInjector($this->injector);
         }
-        $result = $this->injector->execute($action);
+        $product = $this->injector->execute($action);
+        if ($product instanceof \Generator)
+        {
+            while ($product->valid())
+            {
+                $current = $product->current();
+                $subProduct = null;
+                if ($current instanceof Action) {
+                    if ($injectionParams = $action->getInjectionParams()) {
+                        $injectionParams->addToInjector($this->injector);
+                    }
+                    $subProduct = $this->injector->execute($current);
+                }
+                $product->send($subProduct);
+            }
+            $product = $product->getReturn();
+        }
         if ($next = $action->getNext())
         {
             $this->dispatchAction($action);
         }
-        if ($result instanceof Action) {
-            $this->actions[] = $result;
+        if ($product instanceof Action) {
+            $this->actions[] = $product;
         }
     }
     public function execute()
