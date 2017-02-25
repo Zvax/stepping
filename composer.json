@@ -2,7 +2,7 @@
     "name": "zvax/stepping",
     "require":
     {
-        "php": ">=7.0",
+        "php": ">=5.6",
         "rdlowrey/auryn": "^1.4",
         "phpunit/phpunit": "^6.0"
     },
