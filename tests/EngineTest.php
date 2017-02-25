@@ -1,10 +1,9 @@
 <?php
 namespace Tests;
 use Auryn\Injector;
-use PHPUnit\Framework\TestCase;
 use Stepping\Action;
 use Stepping\Engine;
-class EngineTest extends TestCase
+class EngineTest extends \PHPUnit_Framework_TestCase
 {
     public function testSteps()
     {
@@ -32,7 +31,7 @@ class EngineTest extends TestCase
         $injector = new Injector;
         $next = new Action(function()
         {
-            $subValue = yield new Action('Tests\ReturnClass::getValue');
+            $subValue = (yield new Action('Tests\ReturnClass::getValue'));
             echo $subValue;
         });
         $engine = new Engine($injector, $next);
@@ -45,9 +44,9 @@ class EngineTest extends TestCase
     {
         $injector = new Injector;
         $action = new Action(function () {
-            $value = yield new Action(function () {
+            $value = (yield new Action(function () {
                 return 'promised';
-            });
+            }));
             echo $value;
         });
         $engine = new Engine($injector, $action);
@@ -61,7 +60,7 @@ class EngineTest extends TestCase
         function makeGen()
         {
             for ($i = 1; $i < 6; $i++) {
-                $value = yield $i;
+                $value = (yield $i);
                 echo $value;
             }
         }

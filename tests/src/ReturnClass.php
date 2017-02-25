@@ -8,7 +8,7 @@ class ReturnClass {
     }
     public function shouldReceiveFromYield()
     {
-        $valueFromItself = yield new Action('Tests\ReturnClass::getValue');
+        $valueFromItself = (yield new Action('Tests\ReturnClass::getValue'));
         echo $valueFromItself;
     }
 }

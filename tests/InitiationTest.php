@@ -1,10 +1,9 @@
 <?php
 namespace Tests;
 use Auryn\Injector;
-use PHPUnit\Framework\TestCase;
 use Stepping\Action;
 use Stepping\Engine;
-class InitiationTest extends TestCase
+class InitiationTest extends \PHPUnit_Framework_TestCase
 {
     public function testInitiates()
     {

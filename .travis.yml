@@ -3,5 +3,5 @@ php:
  - 5.6
  - 7.0
  - 7.1
-script: phpunit tests --bootstrap tests/bootstrap.php
+script: phpunit tests
 install: composer update

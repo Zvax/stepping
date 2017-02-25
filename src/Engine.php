@@ -42,7 +42,7 @@ class Engine
                 }
                 $product->send($subProduct);
             }
-            $product = $product->getReturn();
+            $product = $product->current();
         }
         if ($next = $action->getNext())
         {
