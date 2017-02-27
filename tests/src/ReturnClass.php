@@ -12,6 +12,14 @@ class ReturnClass {
         $valueFromItself = (yield new Action('Tests\ReturnClass::getValue'));
         echo $valueFromItself;
     }
+    public function shouldReceiveFromYieldAndReturnAnotherAction()
+    {
+        $valueFromItself = (yield new Action('Tests\ReturnClass::getValue'));
+        yield new Action(function () use ($valueFromItself)
+        {
+            echo $valueFromItself;
+        });
+    }
     public function shouldReceivedSentParamFromYield()
     {
         $valueFromItself = (yield new Action(
