@@ -1,6 +1,8 @@
 <?php
 namespace Tests;
 use Auryn\Injector;
+use Stepping\Action;
+use Stepping\Engine;
 use Stepping\InjectionParams;
 class InjectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,6 +22,21 @@ class InjectionTest extends \PHPUnit_Framework_TestCase
         $bar = $injector->make('Tests\Bar');
         $this->assertInstanceOf('Tests\Bar', $bar);
         $this->assertEquals(42, $bar->foo);
+    }
+    public function testSendingParamsWithAction()
+    {
+        $injector = new Injector;
+        $next = new Action(
+            'Tests\ReturnClass::wantsAndEchoesScalarParam',
+            new InjectionParams([], [], [], [
+                'param' => 'value',
+            ])
+        );
+        $engine = new Engine($injector, $next);
+        ob_start();
+        $engine->execute();
+        $string = ob_get_clean();
+        $this->assertEquals('value', $string);
     }
     public function testParams()
     {

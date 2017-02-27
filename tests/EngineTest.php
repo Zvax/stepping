@@ -16,6 +16,16 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $string);
         $this->assertEquals('barbaz', $string);
     }
+    public function testSubActionCanSendParams()
+    {
+        $injector = new Injector;
+        $next = new Action('Tests\ReturnClass::shouldReceivedSentParamFromYield');
+        $engine = new Engine($injector, $next);
+        ob_start();
+        $engine->execute();
+        $string = ob_get_clean();
+        $this->assertEquals('value', $string);
+    }
     public function testActionInExternalClassGetsSentValue()
     {
         $injector = new Injector;

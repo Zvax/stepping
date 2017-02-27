@@ -35,7 +35,7 @@ class Engine
                 $current = $product->current();
                 $subProduct = null;
                 if ($current instanceof Action) {
-                    if ($injectionParams = $action->getInjectionParams()) {
+                    if ($injectionParams = $current->getInjectionParams()) {
                         $injectionParams->addToInjector($this->injector);
                     }
                     $subProduct = $this->injector->execute($current);
