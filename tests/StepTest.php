@@ -24,7 +24,7 @@ class StepTest extends \PHPUnit_Framework_TestCase
         $action = function()
         {
             yield 1;
-            $received = yield 2;
+            $received = (yield 2);
             yield $received;
             yield 'return' => new Action(function ()
             {
