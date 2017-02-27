@@ -34,10 +34,16 @@ class Engine
             {
                 $current = $product->current();
                 $subProduct = null;
-                if ($current instanceof Action) {
-                    if ($injectionParams = $current->getInjectionParams()) {
+                if ($current instanceof Action)
+                {
+                    if ($injectionParams = $current->getInjectionParams())
+                    {
                         $injectionParams->addToInjector($this->injector);
                     }
+                    $subProduct = $this->injector->execute($current);
+                }
+                elseif (is_callable($current))
+                {
                     $subProduct = $this->injector->execute($current);
                 }
                 $product->send($subProduct);

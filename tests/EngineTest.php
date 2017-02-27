@@ -94,4 +94,14 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $str = ob_get_clean();
         $this->assertEquals('1122334455', $str);
     }
+    public function testYieldedFunctionIsExecuted()
+    {
+        $injector = new Injector;
+        $next = new Action('Tests\ReturnClass::shouldYieldExecutedFunction');
+        $engine = new Engine($injector, $next);
+        ob_start();
+        $engine->execute();
+        $string = ob_get_clean();
+        $this->assertEquals('ok', $string);
+    }
 }
