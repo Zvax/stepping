@@ -26,7 +26,7 @@ class StepTest extends \PHPUnit_Framework_TestCase
             yield 1;
             $received = (yield 2);
             yield $received;
-            yield 'return' => new Action(function ()
+            yield new Action(function ()
             {
                 echo 'ok';
             });

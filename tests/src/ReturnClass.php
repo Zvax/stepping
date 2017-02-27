@@ -3,6 +3,10 @@ namespace Tests;
 use Stepping\Action;
 use Stepping\InjectionParams;
 class ReturnClass {
+    public function echoOk()
+    {
+        echo 'ok';
+    }
     public function getValue()
     {
         return 'value';
@@ -18,6 +22,7 @@ class ReturnClass {
         {
             echo 'ok';
         };
+        yield new Action('Tests\ReturnClass::echoOk');
     }
     public function shouldReceiveFromYieldAndReturnAnotherAction()
     {

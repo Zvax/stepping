@@ -102,6 +102,6 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $engine->execute();
         $string = ob_get_clean();
-        $this->assertEquals('ok', $string);
+        $this->assertEquals('okok', $string);
     }
 }
