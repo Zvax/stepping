@@ -16,10 +16,10 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $string);
         $this->assertEquals('barbaz', $string);
     }
-    public function testCanReceiveFromYieldAndReturnNewAction()
+    public function testCanReceiveFromYieldAndReturnNewCallable()
     {
         $injector = new Injector;
-        $next = new Action('Tests\ReturnClass::shouldReceiveFromYieldAndReturnAnotherAction');
+        $next = new Action('Tests\ReturnClass::shouldReceiveFromYieldsCallable');
         $engine = new Engine($injector, $next);
         ob_start();
         $engine->execute();

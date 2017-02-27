@@ -22,54 +22,59 @@ class Engine
         }
         return;
     }
-    private function loopGenerator(\Generator $product)
+    private function loopGenerator(\Generator $generator)
     {
         $current = null;
-        while ($product->valid())
+        while ($generator->valid())
         {
-            $current = $product->current();
-            $subProduct = null;
-            if ($current instanceof Action)
+            $current = $generator->current();
+            if (
+                is_callable($current)
+                || $current instanceof Action
+                || $current instanceof \Generator
+            )
             {
-                $subProduct = $this->dispatchAction($current);
-                /*
-                if ($injectionParams = $current->getInjectionParams())
-                {
-                    $injectionParams->addToInjector($this->injector);
-                }
-                $subProduct = $this->injector->execute($current);
-                */
+                $stepResult = $this->dispatch($current);
+                $generator->send($stepResult);
             }
-            else if (is_callable($current))
+            else
             {
-                $subProduct = $this->injector->execute($current);
+                $generator->next();
             }
-            $product->send($subProduct);
         }
-        return $current;
+        return $generator->current();
     }
-    private function dispatchAction(Action $action)
+    private function dispatch($action)
     {
-        if ($injectionParams = $action->getInjectionParams()) {
-            $injectionParams->addToInjector($this->injector);
-        }
-        $product = $this->injector->execute($action);
-        if ($product instanceof \Generator)
+        if ($action instanceof Action)
         {
-            while ($product instanceof \Generator)
-            {
-                $product = $this->loopGenerator($product);
+            if ($injectionParams = $action->getInjectionParams()) {
+                $injectionParams->addToInjector($this->injector);
             }
+            return $this->injector->execute($action);
         }
-        return $product;
+        else if ($action instanceof \Generator)
+        {
+            return $this->loopGenerator($action);
+        }
+        else if (is_callable($action))
+        {
+            return $this->injector->execute($action);
+        }
+        return false;
     }
     public function execute()
     {
-        /** @var Action $action */
-        foreach ($this->getActions() as $action) {
-            $product = $this->dispatchAction($action);
-            if ($product instanceof Action) {
-                $this->actions[] = $product;
+        foreach ($this->getActions() as $action)
+        {
+            $result = $this->dispatch($action);
+            if (
+                is_callable($result)
+                || $result instanceof Action
+                || $result instanceof \Generator
+            )
+            {
+                $this->actions[] = $result;
             }
         }
     }

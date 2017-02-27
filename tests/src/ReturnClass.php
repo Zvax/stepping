@@ -37,13 +37,10 @@ class ReturnClass {
         yield new Action('Tests\ReturnClass::echoOk');
         yield $this->getAction();
     }
-    public function shouldReceiveFromYieldAndReturnAnotherAction()
+    public function shouldReceiveFromYieldsCallable()
     {
         $valueFromItself = (yield new Action('Tests\getValue'));
-        yield function () use ($valueFromItself)
-        {
-            echo $valueFromItself;
-        };
+        echo $valueFromItself;
     }
     public function shouldReceivedSentParamFromYield()
     {
