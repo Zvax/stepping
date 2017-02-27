@@ -24,7 +24,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $engine->execute();
         $string = ob_get_clean();
-        $this->assertEquals('value', $string);
+        $this->assertEquals('valueFromInjectorActivatedFunction', $string);
     }
     public function testSubActionCanSendParams()
     {
@@ -44,7 +44,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $engine->execute();
         $string = ob_get_clean();
-        $this->assertEquals('value', $string);
+        $this->assertEquals('valueFromClass', $string);
     }
     public function testActionCanReceiveFromStringExecutable()
     {
@@ -52,13 +52,14 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $next = new Action(function()
         {
             $subValue = (yield new Action('Tests\ReturnClass::getValue'));
-            echo $subValue;
+            $subValue2 = (yield new Action('Tests\getValue'));
+            echo "$subValue$subValue2";
         });
         $engine = new Engine($injector, $next);
         ob_start();
         $engine->execute();
         $string = ob_get_clean();
-        $this->assertEquals('value', $string);
+        $this->assertEquals('valueFromClassvalueFromInjectorActivatedFunction', $string);
     }
     public function testActionCanReceive()
     {
@@ -102,6 +103,6 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $engine->execute();
         $string = ob_get_clean();
-        $this->assertEquals('okok', $string);
+        $this->assertEquals('okokfrom yield new action', $string);
     }
 }

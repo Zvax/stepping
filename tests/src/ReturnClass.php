@@ -2,6 +2,10 @@
 namespace Tests;
 use Stepping\Action;
 use Stepping\InjectionParams;
+function getValue(Foo $foo)
+{
+    return 'valueFromInjectorActivatedFunction';
+}
 class ReturnClass {
     public function echoOk()
     {
@@ -9,12 +13,19 @@ class ReturnClass {
     }
     public function getValue()
     {
-        return 'value';
+        return 'valueFromClass';
     }
     public function shouldReceiveFromYield()
     {
         $valueFromItself = (yield new Action('Tests\ReturnClass::getValue'));
         echo $valueFromItself;
+    }
+    private function getAction()
+    {
+        yield function ()
+        {
+            echo 'from yield new action';
+        };
     }
     public function shouldYieldExecutedFunction()
     {
@@ -22,15 +33,17 @@ class ReturnClass {
         {
             echo 'ok';
         };
+        $value = (yield null);
         yield new Action('Tests\ReturnClass::echoOk');
+        yield $this->getAction();
     }
     public function shouldReceiveFromYieldAndReturnAnotherAction()
     {
-        $valueFromItself = (yield new Action('Tests\ReturnClass::getValue'));
-        yield new Action(function () use ($valueFromItself)
+        $valueFromItself = (yield new Action('Tests\getValue'));
+        yield function () use ($valueFromItself)
         {
             echo $valueFromItself;
-        });
+        };
     }
     public function shouldReceivedSentParamFromYield()
     {
