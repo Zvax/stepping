@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Gens;
 
 use Auryn\Injector;
+use PHPUnit\Framework\TestCase;
 use Stepping\Action;
 use Stepping\Engine;
 function generate()
@@ -29,7 +30,7 @@ function startRun()
 {
     return getEchoesTest();
 }
-class GenFriendlyTest extends \PHPUnit_Framework_TestCase
+class GeneratorFriendlyTest extends TestCase
 {
     public function testGeneratorDuplication()
     {

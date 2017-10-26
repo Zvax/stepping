@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Loops;
 
 use Auryn\Injector;
+use PHPUnit\Framework\TestCase;
 use Stepping\Action;
 use Stepping\Engine;
 function loopSteps()
@@ -12,7 +13,7 @@ function loopSteps()
         echo $i;
     }
 }
-class LoopsTest extends \PHPUnit_Framework_TestCase
+class LoopsTest extends TestCase
 {
     public function testStepHappensOnlyOnce()
     {

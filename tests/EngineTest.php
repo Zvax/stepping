@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace Tests;
 
 use Auryn\Injector;
+use PHPUnit\Framework\TestCase;
 use Stepping\Action;
 use Stepping\Engine;
-class EngineTest extends \PHPUnit_Framework_TestCase
+class EngineTest extends TestCase
 {
     public function testSteps()
     {
