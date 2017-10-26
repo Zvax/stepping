@@ -6,4 +6,4 @@ php:
 script:
  - cd tests
  - ../vendor/bin/phpunit
-install: composer install
+install: composer update
