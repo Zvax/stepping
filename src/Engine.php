@@ -4,6 +4,15 @@ declare(strict_types=1);
 namespace Stepping;
 
 use Auryn\Injector;
+
+/*
+ * The engine takes care of looping over the actions until there are none left
+ *
+ * it expects to be built with the first action of the application
+ * and will keep executing actions as long as they return other actions or generators
+ *
+ */
+
 class Engine
 {
     private $injector;
@@ -14,17 +23,27 @@ class Engine
         $this->injector->share($this->injector);
         $this->actions[] = $next;
     }
-    private function getActions()
+    private function getActions(): \Generator
     {
         $i = 0;
         while ($action = array_shift($this->actions)) {
             yield $action;
-            if ($i++ > 30) {
+            // arbitrary limit of the number of actions an application can generate
+            // I believe I made that as a infinite loop guard, it seems pretty strange now
+            if (++$i > 30) {
                 return;
             }
         }
         return;
     }
+    /*
+     * this routine is tasked with looping over the results of a generator when an action returns one
+     * technically the goal would be to feed the last generator step to the next one
+     *
+     * for instance, used like
+     * $foos = yield new Action(Mapper\Foo::class . '::fetchFoos');
+     *
+     */
     private function loopGenerator(\Generator $generator)
     {
         $current = null;
@@ -57,7 +76,7 @@ class Engine
         }
         return false;
     }
-    public function execute()
+    public function execute(): void
     {
         foreach ($this->getActions() as $action) {
             $result = $this->dispatch($action);

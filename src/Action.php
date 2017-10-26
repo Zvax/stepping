@@ -4,6 +4,13 @@ declare(strict_types=1);
 namespace Stepping;
 
 use Auryn\Injector;
+
+/*
+ * the Action is the basic operation unit of the Stepping module
+ * it represents a single executable, be it a public method of a class, a function or an anonymous function
+ * The Actions are executed with Auryn that resolves their dependencies
+ */
+
 class Action
 {
     private $callable;
@@ -13,16 +20,13 @@ class Action
         InjectionParams $injectionParams = null
     ) {
         $this->callable = $callable;
-        $this->injectionParams = $injectionParams;
+        $this->injectionParams = $injectionParams === null ? new InjectionParams : $injectionParams;
     }
     function __invoke(Injector $injector)
     {
         return $injector->execute($this->callable);
     }
-    /**
-     * @return InjectionParams
-     */
-    public function getInjectionParams()
+    public function getInjectionParams(): InjectionParams
     {
         return $this->injectionParams;
     }
