@@ -1,5 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace Stepping;
+
 use Auryn\Injector;
 class InjectionParams
 {
@@ -16,8 +19,7 @@ class InjectionParams
         $params = [],
         $delegates = [],
         $prepares = []
-    )
-    {
+    ) {
         $this->shares = $shares;
         $this->aliases = $aliases;
         $this->definitions = $definitions;

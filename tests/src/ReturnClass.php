@@ -1,12 +1,16 @@
 <?php
+declare(strict_types=1);
+
 namespace Tests;
+
 use Stepping\Action;
 use Stepping\InjectionParams;
 function getValue(Foo $foo)
 {
     return 'valueFromInjectorActivatedFunction';
 }
-class ReturnClass {
+class ReturnClass
+{
     public function echoOk()
     {
         echo 'ok';
@@ -22,15 +26,13 @@ class ReturnClass {
     }
     private function getAction()
     {
-        yield function ()
-        {
+        yield function () {
             echo 'from yield new action';
         };
     }
     public function shouldYieldExecutedFunction()
     {
-        yield function()
-        {
+        yield function () {
             echo 'ok';
         };
         $value = (yield null);
@@ -44,12 +46,10 @@ class ReturnClass {
     }
     public function shouldReceivedSentParamFromYield()
     {
-        $valueFromItself = (yield new Action(
-            'Tests\ReturnClass::wantsAndReturnsScalarParam',
+        $valueFromItself = (yield new Action('Tests\ReturnClass::wantsAndReturnsScalarParam',
             new InjectionParams([], [], [], [
                 'param' => 'value',
-            ])
-        ));
+            ])));
         echo $valueFromItself;
     }
     public function wantsAndEchoesScalarParam($param)

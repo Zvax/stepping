@@ -1,5 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace Tests;
+
 use Auryn\Injector;
 use Stepping\Action;
 use Stepping\Engine;
@@ -49,8 +52,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     public function testActionCanReceiveFromStringExecutable()
     {
         $injector = new Injector;
-        $next = new Action(function()
-        {
+        $next = new Action(function () {
             $subValue = (yield new Action('Tests\ReturnClass::getValue'));
             $subValue2 = (yield new Action('Tests\getValue'));
             echo "$subValue$subValue2";
@@ -85,6 +87,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
                 echo $value;
             }
         }
+
         $gen = makeGen();
         ob_start();
         $i = 0;

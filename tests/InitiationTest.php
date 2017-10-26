@@ -1,5 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace Tests;
+
 use Auryn\Injector;
 use Stepping\Action;
 use Stepping\Engine;
@@ -7,8 +10,7 @@ class InitiationTest extends \PHPUnit_Framework_TestCase
 {
     public function testInitiates()
     {
-        $cb = function ()
-        {
+        $cb = function () {
             return true;
         };
         $engine = new Engine(new Injector, new Action($cb));
@@ -16,8 +18,7 @@ class InitiationTest extends \PHPUnit_Framework_TestCase
     }
     public function testStepCanBeRun()
     {
-        $cb = function ()
-        {
+        $cb = function () {
             return true;
         };
         $this->assertTrue(true == (new Injector)->execute(new Action($cb)));

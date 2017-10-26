@@ -1,12 +1,14 @@
 <?php
+declare(strict_types=1);
+
 namespace Tests\Loops;
+
 use Auryn\Injector;
 use Stepping\Action;
 use Stepping\Engine;
 function loopSteps()
 {
-    for ($i = 0; $i !== 5; $i++)
-    {
+    for ($i = 0; $i !== 5; $i++) {
         echo $i;
     }
 }
@@ -14,10 +16,7 @@ class LoopsTest extends \PHPUnit_Framework_TestCase
 {
     public function testStepHappensOnlyOnce()
     {
-        $engine = new Engine(
-            new Injector,
-            new Action('Tests\Loops\loopSteps')
-        );
+        $engine = new Engine(new Injector, new Action('Tests\Loops\loopSteps'));
         ob_start();
         $engine->execute();
         $string = ob_get_clean();
@@ -26,10 +25,7 @@ class LoopsTest extends \PHPUnit_Framework_TestCase
     public function testCanSendCallableToAction()
     {
 
-        $engine = new Engine(
-            new Injector,
-            new Action('Tests\Loops\loopSteps')
-        );
+        $engine = new Engine(new Injector, new Action('Tests\Loops\loopSteps'));
         ob_start();
         $engine->execute();
         $string = ob_get_clean();

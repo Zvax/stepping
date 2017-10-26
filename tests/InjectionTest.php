@@ -1,5 +1,8 @@
 <?php
+declare(strict_types=1);
+
 namespace Tests;
+
 use Auryn\Injector;
 use Stepping\Action;
 use Stepping\Engine;
@@ -8,16 +11,13 @@ class InjectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepare()
     {
-        $prep = function ($obj, $injector)
-        {
+        $prep = function ($obj, $injector) {
             $obj->foo = 42;
         };
         $injector = new Injector;
-        $params = new InjectionParams(
-            [], [], [], [], [], [
-            'Tests\Bar' => $prep,
-        ]
-        );
+        $params = new InjectionParams([], [], [], [], [], [
+                'Tests\Bar' => $prep,
+            ]);
         $params->addToInjector($injector);
         $bar = $injector->make('Tests\Bar');
         $this->assertInstanceOf('Tests\Bar', $bar);
@@ -26,12 +26,9 @@ class InjectionTest extends \PHPUnit_Framework_TestCase
     public function testSendingParamsWithAction()
     {
         $injector = new Injector;
-        $next = new Action(
-            'Tests\ReturnClass::wantsAndEchoesScalarParam',
-            new InjectionParams([], [], [], [
+        $next = new Action('Tests\ReturnClass::wantsAndEchoesScalarParam', new InjectionParams([], [], [], [
                 'param' => 'value',
-            ])
-        );
+            ]));
         $engine = new Engine($injector, $next);
         ob_start();
         $engine->execute();
@@ -40,16 +37,13 @@ class InjectionTest extends \PHPUnit_Framework_TestCase
     }
     public function testParams()
     {
-        $func = function ($param)
-        {
+        $func = function ($param) {
             return $param;
         };
         $injector = new Injector;
-        $injection = new InjectionParams(
-            [], [], [], [
-            'param' => 'value',
-        ]
-        );
+        $injection = new InjectionParams([], [], [], [
+                'param' => 'value',
+            ]);
         $injection->addToInjector($injector);
         $this->assertEquals('value', $injector->execute($func));
     }
