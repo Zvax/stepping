@@ -1,43 +1,34 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-namespace Tests\Gens;
+namespace Stepping\Tests;
 
 use Auryn\Injector;
 use PHPUnit\Framework\TestCase;
 use Stepping\Action;
 use Stepping\Engine;
-function generate()
-{
-    for ($i = 0; $i !== 10; $i++) {
-        yield $i;
-    }
-}
 
-function echoes()
-{
-    foreach (generate() as $value) {
-        echo $value;
-    }
-}
-
-function getEchoesTest()
-{
-    yield new Action('Tests\Gens\echoes');
-}
-
-function startRun()
-{
-    return getEchoesTest();
-}
 class GeneratorFriendlyTest extends TestCase
 {
-    public function testGeneratorDuplication()
+    /** @test */
+    public function generators_do_not_duplicate(): void
     {
-        $engine = new Engine(new Injector, new Action('Tests\Gens\startRun'));
+        $engine = new Engine(new Injector, new Action('Stepping\Tests\startRun'));
         ob_start();
         $engine->execute();
         $string = ob_get_clean();
-        $this->assertEquals('0123456789', $string);
+        self::assertEquals('0123456789', $string);
+    }
+
+    /**
+     * @test
+     * we should be able to receive the product of a step from inside a handler
+     */
+    public function product_can_be_received_from_yield(): void
+    {
+        $engine = new Engine(new Injector, new Action(ConsumesYield::class . '::generator'));
+        ob_start();
+        $engine->execute();
+        $content = ob_get_clean();
+        self::assertSame('generated product', $content);
     }
 }

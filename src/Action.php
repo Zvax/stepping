@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Stepping;
 
@@ -13,19 +12,16 @@ use Auryn\Injector;
 
 class Action
 {
-    private $callable;
-    private $injectionParams;
-    public function __construct(
-        $callable,
-        InjectionParams $injectionParams = null
-    ) {
-        $this->callable = $callable;
-        $this->injectionParams = $injectionParams === null ? new InjectionParams : $injectionParams;
+    public function __construct(private $callable, private ?InjectionParams $injectionParams = null)
+    {
+        $this->injectionParams = $injectionParams ?? new InjectionParams;
     }
-    function __invoke(Injector $injector)
+
+    public function __invoke(Injector $injector)
     {
         return $injector->execute($this->callable);
     }
+
     public function getInjectionParams(): InjectionParams
     {
         return $this->injectionParams;

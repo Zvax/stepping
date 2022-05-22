@@ -1,15 +1,15 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-namespace Tests;
+namespace Stepping\Tests;
 
 use Auryn\Injector;
 use PHPUnit\Framework\TestCase;
 use Stepping\Action;
 use Stepping\Engine;
+
 class InitiationTest extends TestCase
 {
-    public function testInitiates()
+    public function testInitiates(): void
     {
         $cb = function () {
             return true;
@@ -17,14 +17,16 @@ class InitiationTest extends TestCase
         $engine = new Engine(new Injector, new Action($cb));
         $this->assertInstanceOf('Stepping\Engine', $engine);
     }
-    public function testStepCanBeRun()
+
+    public function testStepCanBeRun(): void
     {
         $cb = function () {
             return true;
         };
         $this->assertTrue(true == (new Injector)->execute(new Action($cb)));
     }
-    public function testAssociateNull()
+
+    public function testAssociateNull(): void
     {
         $this->assertNotTrue($injectionParams = null);
     }

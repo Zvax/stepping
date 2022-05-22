@@ -1,29 +1,30 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-namespace Tests;
+namespace Stepping\Tests;
 
 use Auryn\Injector;
 use PHPUnit\Framework\TestCase;
 use Stepping\Action;
 use Stepping\InjectionParams;
+
 class StepTest extends TestCase
 {
-    public function testDependenciesAreConstructed()
+    public function testDependenciesAreConstructed(): void
     {
         $injector = new Injector;
         $injectionParams = new InjectionParams([], [], [], [
             "stringArg" => "stringValue"
         ]);
-        $this->assertInstanceOf("\\Stepping\\InjectionParams", $injectionParams);
+        $this->assertInstanceOf(InjectionParams::class, $injectionParams);
         $injectionParams->addToInjector($injector);
 
-        $moot = $injector->make("\\Tests\\Moot");
-        $this->assertInstanceOf("Tests\\Moot", $moot);
+        $moot = $injector->make(Moot::class);
+        $this->assertInstanceOf(Moot::class, $moot);
 
         $this->assertEquals("stringValue", $moot->getStringArg());
     }
-    public function testReturnsAndYields()
+
+    public function testReturnsAndYields(): void
     {
         $action = function () {
             yield 1;
@@ -33,7 +34,7 @@ class StepTest extends TestCase
                 echo 'ok';
             });
         };
-        /** @var \Generator $gen */
+
         $gen = $action();
         $this->assertEquals(1, $gen->current());
         $gen->next();
@@ -41,9 +42,10 @@ class StepTest extends TestCase
         $gen->send(3);
         $this->assertEquals(3, $gen->current());
         $gen->next();
-        $this->assertInstanceOf('Stepping\Action', $gen->current());
+        $this->assertInstanceOf(Action::class, $gen->current());
     }
-    public function testYieldsArrayValues()
+
+    public function testYieldsArrayValues(): void
     {
         function gen()
         {
